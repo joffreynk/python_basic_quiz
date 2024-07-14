@@ -3,8 +3,8 @@
   # random order, along with the answer key.
 import random, os
 from pathlib import Path
-# The quiz data. Keys are states and values are their capitals.
-allStates = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona': 'Phoenix',
+# The quiz data. Keys are questions and values are their allAnswers.
+quizData = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona': 'Phoenix',
   'Arkansas': 'Little Rock', 'California': 'Sacramento', 'Colorado': 'Denver',
   'Connecticut': 'Hartford', 'Delaware': 'Dover', 'Florida': 'Tallahassee',
   'Georgia': 'Atlanta', 'Hawaii': 'Honolulu', 'Idaho': 'Boise', 'Illinois':'Springfield',
@@ -20,6 +20,8 @@ allStates = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona': 'Phoenix',
   'Texas': 'Austin', 'Utah': 'Salt Lake City', 'Vermont':'Montpelier',
   'Virginia': 'Richmond', 'Washington': 'Olympia', 'West Virginia': 'Charleston', 'Wisconsin': 'Madison', 'Wyoming': 'Cheyenne'}
 
+description = 'Full Name:_________________________________ \nClass:________ \nGeography quiz\n\nInstructions:\nPlease attempt all the questions.\nThe use of the computer or map is highly discouraged\n\n\n'
+
 quizPath = Path(Path.cwd()/'quizzes')
 
 if not quizPath.exists():
@@ -30,24 +32,24 @@ for quizNum in range(35):
   # TODO: Create the quiz and answer key files.
   file = open('{}/quiz{}.txt'.format(quizPath, quizNum+1), 'w')
   # TODO: Write out the header for the quiz.
-  file.write('Full Name:_________________________________ \nClass:________ \nGeography quiz\n\nInstructions:\nPlease attempt all the questions.\nThe use of the computer or map is highly discouraged\n\n\n')
-  # TODO: Shuffle the order of the states and get the first 12.
-  states = list(allStates.keys())
-  random.shuffle(states)
-  random.shuffle(states)
-  s = states[1:12]
+  file.write(description)
+  # TODO: Shuffle the order of the questions from main data and get the first 12.
+  questions = list(quizData.keys())
+  random.shuffle(questions)
+  random.shuffle(questions)
+  s = questions[1:12]
   
-  # TODO: Loop through all 12 states, making a question for each.
+  # TODO: Loop through all 12 questions, making a question for each.
   for index, q in enumerate(s):
-    capitals = list(allStates.values())
-    capitals.remove(allStates[q])
-    random.shuffle(capitals)
-    random.shuffle(capitals)
-    c = capitals[15:18] # get 3 capitals from all capitals
-    c.append(allStates[q]) # add the correct capital to answer list
+    allAnswers = list(quizData.values())
+    allAnswers.remove(quizData[q])
+    random.shuffle(allAnswers)
+    random.shuffle(allAnswers)
+    c = allAnswers[15:18] # get 3 answers from all all Answers
+    c.append(quizData[q]) # add the correct answer to answers list
     random.shuffle(c)
     random.shuffle(c)
-    file.write('Q{}. what is the capital city of the {}? \n'.format(index+1, q))
+    file.write('Q{}. what is the capital city of the {}? \n'.format(index+1, q)) #format the question basd on your case
     file.write('A. {}\t B. {}\t C. {}\t D. {}\n\n'.format(c[1], c[0], c[3], c[2]))
   
   file.close()
